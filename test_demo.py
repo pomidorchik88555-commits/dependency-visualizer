@@ -34,57 +34,57 @@ def test_valid_config():
         config = Config()
         config.load_from_csv(config_file)
         config.display_config()
-        print("✅ Тест пройден успешно")
+        print("Тест пройден успешно")
     except Exception as e:
-        print(f"❌ Ошибка: {e}")
+        print(f"Ошибка: {e}")
     finally:
         os.unlink(config_file)
 
 
 def test_invalid_package():
     """Тест с неверным именем пакета"""
-    print("\n=== Тест с пустым именем пакета ===")
+    print("\nТест с пустым именем пакета")
 
     config_file = create_test_config('', 'https://example.com', 'false', 'true')
 
     try:
         config = Config()
         config.load_from_csv(config_file)
-        print("❌ Тест не прошел: ожидалась ошибка")
+        print("Тест не прошел: ожидалась ошибка")
     except InvalidPackageNameError as e:
-        print(f"✅ Ожидаемая ошибка: {e}")
+        print(f"Ожидаемая ошибка: {e}")
     finally:
         os.unlink(config_file)
 
 
 def test_invalid_url():
     """Тест с неверным URL"""
-    print("\n=== Тест с неверным URL ===")
+    print("\nТест с неверным URL")
 
     config_file = create_test_config('numpy', 'invalid-url', 'false', 'true')
 
     try:
         config = Config()
         config.load_from_csv(config_file)
-        print("❌ Тест не прошел: ожидалась ошибка")
+        print("Тест не прошел: ожидалась ошибка")
     except InvalidURLError as e:
-        print(f"✅ Ожидаемая ошибка: {e}")
+        print(f"Ожидаемая ошибка: {e}")
     finally:
         os.unlink(config_file)
 
 
 def test_invalid_mode():
     """Тест с неверным режимом"""
-    print("\n=== Тест с неверным режимом ===")
+    print("\nТест с неверным режимом")
 
     config_file = create_test_config('numpy', 'https://example.com', 'invalid', 'true')
 
     try:
         config = Config()
         config.load_from_csv(config_file)
-        print("❌ Тест не прошел: ожидалась ошибка")
+        print("Тест не прошел: ожидалась ошибка")
     except InvalidModeError as e:
-        print(f"✅ Ожидаемая ошибка: {e}")
+        print(f"Ожидаемая ошибка: {e}")
     finally:
         os.unlink(config_file)
 

@@ -2,7 +2,8 @@ import sys
 import os
 from config import Config
 from errors import *
-from npm_client import NPMClient  
+from npm_client import NPMClient
+from dependency_graph import DependencyGraph
 
 
 def main():
@@ -17,22 +18,50 @@ def main():
 
         config.load_from_csv(config_path)
 
-        # Выводим конфигурацию (требование этапа 1)
+        # Выводим конфигурацию
         config.display_config()
 
-        # ЭТАП 2: Получаем зависимости
-        print("\n=== Этап 2: Получение зависимостей ===")
-
+        # Создаем клиент и граф
         npm_client = NPMClient()
-        dependencies = npm_client.get_dependencies(config.package_name)
+        graph = DependencyGraph()
 
-        # Выводим прямые зависимости (требование этапа 2)
-        if dependencies:
-            print(f"Прямые зависимости пакета '{config.package_name}':")
-            for dep_name, dep_version in dependencies.items():
-                print(f"  - {dep_name}: {dep_version}")
+        # Выбираем функцию для получения зависимостей
+        if config.test_mode:
+            print(f"\nРЕЖИМ ТЕСТИРОВАНИЯ")
+            print(f"Анализируем тестовый пакет: {config.package_name}")
+            print(f"Путь к тестовому файлу: {config.repository_url}")
+
+            # Проверяем что файл существует
+            if os.path.exists(config.repository_url):
+                print(f"Файл существует: {config.repository_url}")
+            else:
+                print(f"Файл НЕ существует: {config.repository_url}")
+                print(f"Текущая директория: {os.getcwd()}")
+                print(f"Содержимое директории: {os.listdir('.')}")
+                raise FileNotFoundError(f"Тестовый файл не найден: {config.repository_url}")
+
+            def get_deps_func(pkg):
+                return npm_client.get_dependencies_recursive(
+                    pkg, test_mode=True, repo_path=config.repository_url
+                )
         else:
-            print(f"Пакет '{config.package_name}' не имеет зависимостей")
+            print(f"\nРЕЖИМ РАБОТЫ С NPM")
+            print(f"Анализируем пакет: {config.package_name}")
+
+            def get_deps_func(pkg):
+                return npm_client.get_dependencies_recursive(pkg, test_mode=False)
+
+        # Строим граф зависимостей
+        print(f"\nЭТАП 3: ПОСТРОЕНИЕ ГРАФА ЗАВИСИМОСТЕЙ")
+        graph.build_graph_bfs(config.package_name, get_deps_func)
+
+        # Выводим результат
+        graph.display_graph()
+
+        print(f"\nАнализ завершен!")
+        print(f"Проанализировано пакетов: {len(graph.get_graph())}")
+        if graph.has_cycles():
+            print("Обнаружены циклические зависимости")
 
     except FileNotFoundError as e:
         print(f"Ошибка: {e}")

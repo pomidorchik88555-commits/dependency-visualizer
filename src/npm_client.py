@@ -25,7 +25,7 @@ class NPMClient:
 
         except HTTPError as e:
             if e.code == 404:
-                raise InvalidPackageNameError(f"Пакет '{package_name}' не найден в npm реестра")
+                raise InvalidPackageNameError(f"Пакет '{package_name}' не найден в npm реестре")
             else:
                 raise InvalidURLError(f"Ошибка HTTP {e.code}: {e.reason}")
         except URLError as e:
@@ -49,3 +49,31 @@ class NPMClient:
         dependencies = version_info.get("dependencies", {})
 
         return dependencies
+
+    def get_dependencies_test_mode(self, package_name, repo_path):
+        """Получает зависимости в тестовом режиме (из файла)"""
+        try:
+            import json
+            print(f"Читаем тестовый файл: {repo_path}")
+
+            with open(repo_path, 'r') as f:
+                test_data = json.load(f)
+
+            dependencies = test_data.get(package_name, [])
+            print(f"Найдены зависимости для {package_name}: {dependencies}")
+
+            return {dep: "1.0.0" for dep in dependencies}
+
+        except FileNotFoundError:
+            raise ConfigError(f"Тестовый файл не найден: {repo_path}")
+        except json.JSONDecodeError:
+            raise ConfigError(f"Ошибка формата JSON в файле: {repo_path}")
+        except Exception as e:
+            raise ConfigError(f"Ошибка чтения тестового файла: {e}")
+
+    def get_dependencies_recursive(self, package_name, test_mode=False, repo_path=None):
+        """Рекурсивно получает зависимости (основной метод для графа)"""
+        if test_mode:
+            return self.get_dependencies_test_mode(package_name, repo_path)
+        else:
+            return self.get_dependencies(package_name)

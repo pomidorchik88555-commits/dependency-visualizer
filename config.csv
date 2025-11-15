@@ -1,2 +1,2 @@
 package_name,repository_url,test_mode,ascii_tree_output
-express,https://github.com/expressjs/express,false,true
+A,/Users/annapashkova/Desktop/pycharm/dependency_visualizer/test_repository.json,true,true
