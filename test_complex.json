@@ -1,0 +1,14 @@
+{
+  "WebApp": ["React", "Router", "StateManager"],
+  "React": ["DOM", "JSX"],
+  "Router": ["History", "PathParser"],
+  "StateManager": ["Events", "Storage"],
+  "DOM": ["Utils"],
+  "JSX": ["Parser"],
+  "History": ["PathParser"],
+  "PathParser": ["Utils"],
+  "Events": [],
+  "Storage": [],
+  "Parser": ["Utils"],
+  "Utils": []
+}
