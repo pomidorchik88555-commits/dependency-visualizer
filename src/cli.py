@@ -2,6 +2,7 @@ import sys
 import os
 from config import Config
 from errors import *
+from npm_client import NPMClient  
 
 
 def main():
@@ -19,8 +20,19 @@ def main():
         # Выводим конфигурацию (требование этапа 1)
         config.display_config()
 
-        # Здесь в будущих этапах будет логика анализа зависимостей
-        print("\nКонфигурация успешно загружена. Готов к анализу зависимостей.")
+        # ЭТАП 2: Получаем зависимости
+        print("\n=== Этап 2: Получение зависимостей ===")
+
+        npm_client = NPMClient()
+        dependencies = npm_client.get_dependencies(config.package_name)
+
+        # Выводим прямые зависимости (требование этапа 2)
+        if dependencies:
+            print(f"Прямые зависимости пакета '{config.package_name}':")
+            for dep_name, dep_version in dependencies.items():
+                print(f"  - {dep_name}: {dep_version}")
+        else:
+            print(f"Пакет '{config.package_name}' не имеет зависимостей")
 
     except FileNotFoundError as e:
         print(f"Ошибка: {e}")

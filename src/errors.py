@@ -17,3 +17,7 @@ class InvalidModeError(ConfigError):
 class CSVFormatError(ConfigError):
     """Ошибка формата CSV файла"""
     pass
+
+class NPMError(ConfigError):
+    """Ошибка работы с npm реестром"""
+    pass
