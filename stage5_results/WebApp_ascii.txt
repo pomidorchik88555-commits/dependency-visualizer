@@ -1,0 +1,59 @@
+ASCII ДЕРЕВО ЗАВИСИМОСТЕЙ: WebApp
+============================================================
+
+└── WebApp
+    ├── React
+    │   ├── ReactDOM
+    │   │   ├── Scheduler
+    │   │   │   └── PriorityQueue
+    │   │   │       └── Heap
+    │   │   └── Reconciler
+    │   │       └── Fiber
+    │   ├── PropTypes
+    │   └── JSX-Runtime
+    │       └── Babel
+    │           ├── Parser
+    │           │   └── Tokenizer
+    │           └── Generator
+    │               └── Codegen
+    ├── Vue
+    │   ├── VueRouter
+    │   │   ├── PathParser
+    │   │   │   └── Regex
+    │   │   └── History
+    │   │       └── Location
+    │   ├── Vuex
+    │   │   ├── StateManager
+    │   │   │   ├── Events
+    │   │   │   └── Observer
+    │   │   └── MutationHelper
+    │   └── VueCompiler
+    │       └── TemplateParser
+    │           └── AST
+    ├── Express
+    │   ├── BodyParser
+    │   │   ├── Stream
+    │   │   │   └── Buffer
+    │   │   └── JSON
+    │   ├── CORS
+    │   │   └── Options
+    │   ├── Helmet
+    │   │   └── Security
+    │   │       └── Headers
+    │   └── Session
+    │       ├── Cookie
+    │       └── Store
+    └── Database
+        ├── MongoDriver
+        │   └── BSON
+        ├── Redis
+        │   └── Networking
+        │       └── Socket
+        └── ORM
+            └── QueryBuilder
+                └── SQL
+
+
+СТАТИСТИКА:
+- Всего пакетов: 51
+- Максимальная глубина: 4 уровня

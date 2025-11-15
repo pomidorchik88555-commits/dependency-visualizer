@@ -1,0 +1,4 @@
+requests>=2.25.1
+click>=8.0.0
+pytest>=6.0.0
+plantuml>=0.3.0

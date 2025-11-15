@@ -1,0 +1,14 @@
+@startuml
+skinparam monochrome true
+skinparam nodesep 20
+skinparam ranksep 40
+left to right direction
+
+["express"] --> ["body-parser"]
+["body-parser"] --> ["bytes"]
+["body-parser"] --> ["content-type"]
+["express"] --> ["cookie-parser"]
+["cookie-parser"] --> ["cookie"]
+["express"] --> ["cors"]
+["cors"] --> ["vary"]
+@enduml
